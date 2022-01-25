@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {Button} from 'antd'
+import {Button,Input} from 'antd'
 class App extends PureComponent {
     render() { 
         return ( <div>
