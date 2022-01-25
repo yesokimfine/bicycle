@@ -1,26 +1,30 @@
-const CracoLessPlugin = require('craco-less')
+const CracoLessPlugin = require('craco-less');
+
+
 module.exports = {
-  plugins: [
-    {  //详情可以去官网查看
-      plugin: CracoLessPlugin,
-      options: {
-        lessLoaderOptions: {
-          lessOptions: {
-            javascriptEnabled: true,
-          },
-        },
-      },
-    }],
-  babel: {  //实现按需加载
+    babel: {
+        plugins: [
+           [
+               "import", 
+               {
+                   "libraryName": "antd",
+                   "libraryDirectory": "es",
+                    "style": true //设置为true即是less
+                }
+            ]
+        ]
+    },
     plugins: [
-      [
-        "import",
         {
-          "libraryName": "antd",
-          "libraryDirectory": "es",
-          "style": true //设置为true即是less  "css"是css
-        }
-      ]
-    ]
-  },
-}
+            plugin: CracoLessPlugin,
+            options: {
+                lessLoaderOptions: {
+                    lessOptions: {
+                        modifyVars: { '@primary-color': '#1DA57A' },
+                        javascriptEnabled: true,
+                    },
+                },
+            },
+        },
+    ],
+};
