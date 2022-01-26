@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
-import './index.less'
+import axios from 'axios'
+import Util from '../../utils/utils'
+import './index.less';
 export default class Header extends Component {
-  componentWillMount(){
+  componentWillMount() {
     this.setState({
-      userName:"管理员"
-    })
+      userName: "管理员"
+    });
+    setInterval(() => {
+      let sysTime = Util.formateDate(new Date());
+      this.setState({ sysTime })
+    }, 1000);
   }
   render() {
-    let {userName} = this.state;
+    let { userName, sysTime} = this.state;
     return <div className="header">
       <Row className="header-top">
         <Col span={24}>
@@ -21,7 +27,7 @@ export default class Header extends Component {
           首页
         </Col>
         <Col span={20} className="weather">
-          <span className="date">2022-01-26</span>
+          <span className="date">{sysTime}</span>
           <span className="weather-detail">多云转晴</span>
         </Col>
       </Row>
