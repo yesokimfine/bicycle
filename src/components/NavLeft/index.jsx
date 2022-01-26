@@ -27,7 +27,7 @@ export default class NavLeft extends Component {
       <div className="logo">
         <img src="/assets/bic-logo.jpg" alt="" />
         <h1>单车系统</h1>
-        <Menu theme="dark">
+        <Menu theme="dark" className="menu-list">
           {menuTree}
         </Menu>
       </div>
