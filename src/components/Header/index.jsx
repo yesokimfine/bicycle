@@ -37,8 +37,8 @@ export default class Header extends Component {
         </Col>
         <Col span={20} className="weather">
           <span className="date">{sysTime}</span>
-          <span className="weather-detail">{weather}</span>
           <i className={"qi-"+weatherIconCode}></i>
+          <span className="weather-detail">{weather}</span>
         </Col>
       </Row>
     </div>;
