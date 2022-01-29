@@ -1,0 +1,57 @@
+@import '../../style/default.less';
+.header{
+    background-color: @colorM;
+    .header-top{
+        line-height: 60px;
+        padding: 0 20px;
+        text-align: right;
+        a{
+            margin-left: 30px;
+        }
+    }
+    .breadcrumb{
+        line-height: 40px;
+        padding: 0 20px;
+        border-top: 2px solid #1890FF;
+        .breadcrumb-title{
+            position: relative;
+            text-align: center;
+            font-size: @fontC;
+            color:@colorG;
+            &::after{
+                content: '';
+                position: absolute;
+                top:42px;
+                left: 90px;
+                display: block;
+                border:12px solid @colorM;
+                border-bottom: none;
+                border-right-color: transparent;
+                border-left-color: transparent;
+            }
+        }
+        .weather{
+            text-align: right;
+            .date{
+                margin-right: 8px;
+                color:@colorG;
+            }
+            i{
+                display: inline-block;
+                width: 30px;
+                line-height: 22px;
+                margin-right: 5px;
+                border-radius: 4px;
+                background-image: linear-gradient(#c359e4,#788de9);
+                color: #ffffff;
+                font-size: 17px;
+                text-align: center;
+            }
+            .weather-detail{
+                margin-right: 15px;
+                font-size: 17px;
+                color:@colorC;
+            }
+        }
+    }
+}
