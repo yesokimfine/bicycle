@@ -5,6 +5,7 @@ import Admin from './admin';
 import Login from './page/login';
 import Home from './page/home'
 import Buttons from './page/ui/buttons';
+import Modals from './page/ui/modals';
 import NoMatch from './page/nomatch'
 export default class RootRouter extends Component {
     render() {
@@ -18,6 +19,7 @@ export default class RootRouter extends Component {
                                 <Switch>
                                     <Route path="/admin/home" component={Home}/>
                                     <Route path="/admin/ui/buttons" component={Buttons} />
+                                    <Route path="/admin/ui/modals" component={Modals} />
                                     <Route component={NoMatch} />
                                 </Switch>
                             </Admin>
