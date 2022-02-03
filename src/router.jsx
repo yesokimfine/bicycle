@@ -7,6 +7,7 @@ import Home from './page/home'
 import Buttons from './page/ui/buttons';
 import Modals from './page/ui/modals';
 import Loadings from './page/ui/loadings';
+import Notification from './page/ui/notification';
 import NoMatch from './page/nomatch';
 
 export default class RootRouter extends Component {
@@ -23,6 +24,7 @@ export default class RootRouter extends Component {
                                     <Route path="/admin/ui/buttons" component={Buttons} />
                                     <Route path="/admin/ui/modals" component={Modals} />
                                     <Route path="/admin/ui/loadings" component={Loadings}/>
+                                    <Route path="/admin/ui/notification" component={Notification}/>
                                     <Route component={NoMatch} />
                                 </Switch>
                             </Admin>
