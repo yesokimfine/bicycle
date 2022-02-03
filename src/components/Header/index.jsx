@@ -18,7 +18,7 @@ export default class Header extends Component {
     axios.get("https://devapi.qweather.com/v7/weather/now?key=2d760ed5e7154245a37755e6d6902db5&location=101090501")
     .then(res=>{
        let weather = res.data.now.text;  //天气信息
-       let weatherIconCode = res.data.now.icon;  //字体图标代码
+       let weatherIconCode = res.data.now.icon;  //字体图标编码
        this.setState({weather,weatherIconCode})
     })
   }

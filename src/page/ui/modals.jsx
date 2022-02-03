@@ -86,9 +86,9 @@ export default class Modals extends Component {
         onCancel={() => this.setState({ mod2: false })}
         onOk={() => this.setState({ mod2: false })}
         footer={[
-          <Button type="primary" icon={<UploadOutlined />} loading={isLoading} onClick={this.handdleSubmit}>上传</Button>,
-          <Button type="primary" loading={isLoading} onClick={() => this.setState({ mod2: false })}>确定</Button>,
-          <Button onClick={() => this.setState({ mod2: false })}>取消</Button>,
+          <Button key="001" type="primary" icon={<UploadOutlined />} loading={isLoading} onClick={this.handdleSubmit}>上传</Button>,
+          <Button key="002" type="primary" loading={isLoading} onClick={() => this.setState({ mod2: false })}>确定</Button>,
+          <Button key="003" onClick={() => this.setState({ mod2: false })}>取消</Button>,
         ]}
       >
         <p>Some Contents...</p>
