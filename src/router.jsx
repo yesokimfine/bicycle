@@ -10,6 +10,7 @@ import Loadings from './page/ui/loadings';
 import Notification from './page/ui/notification';
 import Message from './page/ui/message';
 import Tab from './page/ui/tabs';
+import Gallery from './page/ui/gallery';
 import NoMatch from './page/nomatch';
 
 export default class RootRouter extends Component {
@@ -29,6 +30,7 @@ export default class RootRouter extends Component {
                                     <Route path="/admin/ui/notification" component={Notification}/>
                                     <Route path="/admin/ui/messages" component={Message}/>
                                     <Route path="/admin/ui/tabs" component={Tab}/>
+                                    <Route path="/admin/ui/gallery" component={Gallery}/>
                                     <Route component={NoMatch} />
                                 </Switch>
                             </Admin>
