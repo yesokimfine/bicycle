@@ -11,6 +11,11 @@ export default class Header extends Component {
     setInterval(() => {
       let sysTime = Util.formateDate(new Date());
       this.setState({ sysTime })
+      if(new Date().getHours()>=18){
+        this.setState({isNight:true})
+      }else{
+        this.setState({isNight:false})
+      }
     }, 1000);
     this.getWeatherAPIData();
   }
@@ -18,12 +23,14 @@ export default class Header extends Component {
     axios.get("https://devapi.qweather.com/v7/weather/now?key=2d760ed5e7154245a37755e6d6902db5&location=101090501")
     .then(res=>{
        let weather = res.data.now.text;  //天气信息
+       let windDir = res.data.now.windDir; //风向
        let weatherIconCode = res.data.now.icon;  //字体图标编码
-       this.setState({weather,weatherIconCode})
+       this.setState({weather,weatherIconCode,windDir})
     })
   }
   render() {
-    let { userName, sysTime,weather,weatherIconCode} = this.state;
+    let { userName, sysTime,weather,weatherIconCode,isNight,windDir} = this.state;
+    let isNightStyle = isNight?"night-icon":"day-icon";
     return <div className="header">
       <Row className="header-top">
         <Col span={24}>
@@ -37,8 +44,9 @@ export default class Header extends Component {
         </Col>
         <Col span={20} className="weather">
           <span className="date">{sysTime}</span>
-          <i className={"qi-"+weatherIconCode}></i>
+          <i className={`qi-${weatherIconCode} ${isNightStyle}`}></i>
           <span className="weather-detail">{weather}</span>
+          <span className="weather-wind">{windDir}</span>
         </Col>
       </Row>
     </div>;
