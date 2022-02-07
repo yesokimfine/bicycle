@@ -13,6 +13,7 @@ import Tab from './page/ui/tabs';
 import Gallery from './page/ui/gallery';
 import Carousels from './page/ui/carousel';
 import Log from './page/form/login';
+import FormRegister from './page/form/register';
 import NoMatch from './page/nomatch';
 
 export default class RootRouter extends Component {
@@ -35,6 +36,7 @@ export default class RootRouter extends Component {
                                     <Route path="/admin/ui/gallery" component={Gallery}/>
                                     <Route path="/admin/ui/carousel" component={Carousels}/>
                                     <Route path="/admin/form/login" component={Log}/>
+                                    <Route path="/admin/form/reg" component={FormRegister}/>
                                     <Route component={NoMatch} />
                                 </Switch>
                             </Admin>
