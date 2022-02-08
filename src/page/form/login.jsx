@@ -19,7 +19,6 @@ export default class Log extends Component {
                         <Button type="primary">登录</Button>
                     </FormItem>
                 </Form>
-
             </Card>
             <Card title="表单数据双向绑定" className="card-wrapper">
                 <p ref="p1">当前输入：</p>
