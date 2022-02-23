@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Table, Switch, Button } from "antd";
+import { Card, Table, Switch, Button ,modal } from "antd";
 import axios from "axios";
 import "./table.less";
 export default class BasicTable extends Component {
@@ -125,11 +125,21 @@ export default class BasicTable extends Component {
         dataIndex: "address",
       },
     ];
-    let { dataSource, hasBorder, hasPage, dataSource2, selectedRowKeys,selectedItem } = this.state;
+    let { dataSource, hasBorder, hasPage, dataSource2, selectedRowKeys,selectedItem} = this.state;
     const rowSelection = {
       type: "radio",
       selectedRowKeys
     };
+    const rowCheckSelection = {
+        type:"checkbox",
+        selectedRowKeys,
+        onChange:(selectedRowKeys,selectedRowData)=>{
+            this.setState({
+                selectedRowKeys,
+                selectedItem:selectedRowData
+            })
+        }
+    }
     return (
       <div>
         <Card title="基础表格" className="card-wrapper">
@@ -177,7 +187,24 @@ export default class BasicTable extends Component {
                 }, // 点击行
               };
             }}
-            style={{ marginTop: 20 }}
+          />
+        </Card>
+        <Card title="添加复选框" className="card-wrapper">
+          <Button type="primary"
+            onClick={()=>{
+                let ids = selectedItem.map(item=>{
+                    return `第${item.id}行`;
+                })
+                modal.info({
+                    content:"当前选中"+ids
+                })
+            }}
+          >查看</Button>
+          <Table
+            columns={columns2}
+            rowSelection={rowCheckSelection}
+            dataSource={dataSource2}
+            style={{marginTop:20}}
           />
         </Card>
       </div>
