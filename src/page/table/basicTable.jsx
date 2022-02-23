@@ -2,13 +2,18 @@ import React, { Component } from "react";
 import { Card, Table, Switch, Button ,modal } from "antd";
 import axios from "axios";
 import "./table.less";
+import Utils from '../../utils/utils'
 export default class BasicTable extends Component {
   state = {
     hasBorder: false,
     hasPage: false,
     dataSource2: [],
   };
+  params = {
+      page:1
+  } ;
   getUser = () => {
+    let _this = this;
     axios
       .get(
         "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/get.php"
@@ -17,7 +22,13 @@ export default class BasicTable extends Component {
         res.data.data.list.map((item, index) => {
           item.key = index;
         });
-        this.setState({ dataSource2: res.data.data.list });
+        this.setState({ 
+            dataSource2: res.data.data.list,
+            pagination:Utils.pagination(res.data.data,(current)=>{
+                _this.params.page = current;
+                this.getUser();
+            })
+         });
       });
   };
   componentDidMount() {
@@ -125,7 +136,7 @@ export default class BasicTable extends Component {
         dataIndex: "address",
       },
     ];
-    let { dataSource, hasBorder, hasPage, dataSource2, selectedRowKeys,selectedItem} = this.state;
+    let { dataSource, hasBorder, hasPage, dataSource2, selectedRowKeys,selectedItem,pagination} = this.state;
     const rowSelection = {
       type: "radio",
       selectedRowKeys
@@ -205,6 +216,14 @@ export default class BasicTable extends Component {
             rowSelection={rowCheckSelection}
             dataSource={dataSource2}
             style={{marginTop:20}}
+          />
+        </Card>
+        <Card title="添加分页" className="card-wrapper">
+          <Table
+            columns={columns2}
+            rowSelection={rowCheckSelection}
+            dataSource={dataSource2}
+            pagination={pagination}
           />
         </Card>
       </div>
