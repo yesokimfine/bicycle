@@ -1,19 +1,14 @@
 import React, { Component } from "react";
-import { Card, Table, Switch, Button ,modal } from "antd";
+import { Card, Table, Switch, Button, modal } from "antd";
 import axios from "axios";
 import "./table.less";
-import Utils from '../../utils/utils'
 export default class BasicTable extends Component {
   state = {
     hasBorder: false,
     hasPage: false,
     dataSource2: [],
   };
-  params = {
-      page:1
-  } ;
   getUser = () => {
-    let _this = this;
     axios
       .get(
         "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/get.php"
@@ -22,13 +17,9 @@ export default class BasicTable extends Component {
         res.data.data.list.map((item, index) => {
           item.key = index;
         });
-        this.setState({ 
-            dataSource2: res.data.data.list,
-            pagination:Utils.pagination(res.data.data,(current)=>{
-                _this.params.page = current;
-                this.getUser();
-            })
-         });
+        this.setState({
+          dataSource2: res.data.data.list,
+        });
       });
   };
   componentDidMount() {
@@ -72,12 +63,12 @@ export default class BasicTable extends Component {
     this.setState({ dataSource });
     this.getUser();
   }
-  onRowClick = (record,index) => {
+  onRowClick = (record, index) => {
     let selectKey = [index]; //选中的哪一行
     this.setState({
-        selectedRowKeys:selectKey,
-        selectedItem:record  //选中行的数据
-    })
+      selectedRowKeys: selectKey,
+      selectedItem: record, //选中行的数据
+    });
   };
   render() {
     const columns = [
@@ -136,21 +127,28 @@ export default class BasicTable extends Component {
         dataIndex: "address",
       },
     ];
-    let { dataSource, hasBorder, hasPage, dataSource2, selectedRowKeys,selectedItem,pagination} = this.state;
+    let {
+      dataSource,
+      hasBorder,
+      hasPage,
+      dataSource2,
+      selectedRowKeys,
+      selectedItem,
+    } = this.state;
     const rowSelection = {
       type: "radio",
-      selectedRowKeys
+      selectedRowKeys,
     };
     const rowCheckSelection = {
-        type:"checkbox",
-        selectedRowKeys,
-        onChange:(selectedRowKeys,selectedRowData)=>{
-            this.setState({
-                selectedRowKeys,
-                selectedItem:selectedRowData
-            })
-        }
-    }
+      type: "checkbox",
+      selectedRowKeys,
+      onChange: (selectedRowKeys, selectedRowData) => {
+        this.setState({
+          selectedRowKeys,
+          selectedItem: selectedRowData,
+        });
+      },
+    };
     return (
       <div>
         <Card title="基础表格" className="card-wrapper">
@@ -201,21 +199,24 @@ export default class BasicTable extends Component {
           />
         </Card>
         <Card title="添加复选框" className="card-wrapper">
-          <Button type="primary"
-            onClick={()=>{
-                let ids = selectedItem.map(item=>{
-                    return `第${item.id}行`;
-                })
-                modal.info({
-                    content:"当前选中"+ids
-                })
+          <Button
+            type="primary"
+            onClick={() => {
+              let ids = selectedItem.map((item) => {
+                return `第${item.id}行`;
+              });
+              modal.info({
+                content: "当前选中" + ids,
+              });
             }}
-          >查看</Button>
+          >
+            查看
+          </Button>
           <Table
             columns={columns2}
             rowSelection={rowCheckSelection}
             dataSource={dataSource2}
-            style={{marginTop:20}}
+            style={{ marginTop: 20 }}
           />
         </Card>
         <Card title="添加分页" className="card-wrapper">
@@ -223,7 +224,13 @@ export default class BasicTable extends Component {
             columns={columns2}
             rowSelection={rowCheckSelection}
             dataSource={dataSource2}
-            pagination={pagination}
+            pagination={{
+              pageSize: 4,
+              showQuickJumper: true,
+              showTotal: (total) => {
+                return `共${total}条`;
+              },
+            }}
           />
         </Card>
       </div>

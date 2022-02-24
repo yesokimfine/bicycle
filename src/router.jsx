@@ -15,6 +15,7 @@ import Carousels from './page/ui/carousel';
 import Log from './page/form/login';
 import FormRegister from './page/form/register';
 import BasicTable from './page/table/basicTable';
+import HighTable from './page/table/highTable';
 import NoMatch from './page/nomatch';
 
 export default class RootRouter extends Component {
@@ -39,6 +40,7 @@ export default class RootRouter extends Component {
                                     <Route path="/admin/form/login" component={Log}/>
                                     <Route path="/admin/form/reg" component={FormRegister}/>
                                     <Route path="/admin/table/basic" component={BasicTable}/>
+                                    <Route path="/admin/table/high" component={HighTable}/>
                                     <Route component={NoMatch} />
                                 </Switch>
                             </Admin>
