@@ -100,7 +100,7 @@ export default [
         key: '/bikeMap'
     },
     {
-        title: '图标',
+        title: '图表',
         key: '/charts',
         children: [
             {
