@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Table } from "antd";
+import { Badge, Card, Table } from "antd";
 import axios from "axios";
 import "./table.less";
 export default class HighTable extends Component {
@@ -34,9 +34,39 @@ export default class HighTable extends Component {
         });
       });
   };
+  getUser3 = () => {
+    axios
+      .get(
+        "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/table/hightTableSort.php"
+      )
+      .then((res) => {
+        res.data.data.list.map((item, index) => {
+          item.key = index;
+        });
+        this.setState({
+          dataSource4: res.data.data.list,
+        });
+      });
+  };
+  getUser4 = () => {
+    axios
+      .get(
+        "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/table/badgeTable.php"
+      )
+      .then((res) => {
+        res.data.data.list.map((item, index) => {
+          item.key = index;
+        });
+        this.setState({
+          dataSource5: res.data.data.list,
+        });
+      });
+  };
   componentDidMount() {
     this.getUser();
     this.getUser2();
+    this.getUser3();
+    this.getUser4();
   }
   render() {
     const columns2 = [
@@ -131,23 +161,87 @@ export default class HighTable extends Component {
         dataIndex: "address",
       },
     ];
-    let { dataSource2, dataSource3, selectedRowKeys } = this.state;
-    const rowCheckSelection = {
-      type: "checkbox",
-      selectedRowKeys,
-      onChange: (selectedRowKeys, selectedRowData) => {
-        this.setState({
-          selectedRowKeys,
-          selectedItem: selectedRowData,
-        });
+    const columns4 = [
+      {
+        title: "id",
+        dataIndex: "id",
       },
-    };
+      {
+        title: "用户名",
+        dataIndex: "userName",
+      },
+      {
+        title: "性别",
+        dataIndex: "gender",
+      },
+      {
+        title: "订阅频道",
+        dataIndex: "subContent",
+      },
+      {
+        title: "出生日期",
+        dataIndex: "birthday",
+      },
+      {
+        title: "现居地址",
+        dataIndex: "address",
+      },
+      {
+        title: "薪资",
+        dataIndex: "salary",
+        sorter: (a, b) => a.salary - b.salary,
+        sorterOrder: "ascend ",
+      }
+    ];
+    const columns5 = [
+      {
+        title: "id",
+        dataIndex: "id",
+      },
+      {
+        title: "用户名",
+        dataIndex: "userName",
+      },
+      {
+        title: "性别",
+        dataIndex: "gender",
+      },
+      {
+        title: "订阅频道",
+        dataIndex: "subContent",
+      },
+      {
+        title: "出生日期",
+        dataIndex: "birthday",
+      },
+      {
+        title: "现居地址",
+        dataIndex: "address",
+      },
+      {
+        title:"当前状态",
+        dataIndex:"status",
+        render(s){
+          let config = {
+            online:<Badge status="success" text="在线" />,
+            offline:<Badge status="default" text="离线" />,
+            busy:<Badge status="warning" text="忙碌" />
+          }
+          return config[s];
+        }
+      }
+    ];
+    let {
+      dataSource2,
+      dataSource3,
+      dataSource4,
+      dataSource5,
+    } = this.state;
     return (
       <div>
         <Card title="头部固定" className="card-wrapper">
           <Table
             columns={columns2}
-            rowSelection={rowCheckSelection}
             dataSource={dataSource2}
             pagination={false}
             scroll={{ y: 200 }}
@@ -156,10 +250,23 @@ export default class HighTable extends Component {
         <Card title="左右固定" className="card-wrapper">
           <Table
             columns={columns3}
-            rowSelection={rowCheckSelection}
             dataSource={dataSource3}
             pagination={false}
             scroll={{ x: 1900, y: 500 }}
+          />
+        </Card>
+        <Card title="排序" className="card-wrapper">
+          <Table
+            columns={columns4}
+            dataSource={dataSource4}
+            pagination={false}
+          />
+        </Card>
+        <Card title="带图标的表格" className="card-wrapper">
+          <Table
+            columns={columns5}
+            dataSource={dataSource5}
+            pagination={false}
           />
         </Card>
       </div>
