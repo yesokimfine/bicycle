@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Card, Form, Select, Button, Table } from "antd";
+import { Card, Form, Select, Button, Table, Modal, Radio, message } from "antd";
 import axios from "axios";
 
 const FormItem = Form.Item;
 const Option = Select;
+const RadioGroup = Radio.Group;
 const columns = [
   {
     title: "城市ID",
@@ -48,6 +49,7 @@ const columns = [
 export default class City extends Component {
   state = {
     dataSource: [],
+    isShowOpenCity: false,
   };
   componentDidMount() {
     axios
@@ -55,18 +57,34 @@ export default class City extends Component {
         "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/openCity"
       )
       .then((res) => {
+        res.data.data.list.map((item, index) => {
+          item.key = index;
+        });
         this.setState({ dataSource: res.data.data.list });
       });
   }
+  handdleOpenCity = () => {
+    this.setState({ isShowOpenCity: true });
+  };
+  handdleOpenCitySubmit = () => {
+    let cityInfo = this.refs.openCity.getFieldValue();
+    console.log(`城市:${cityInfo.city},营运模式:${cityInfo.op_mode},用车模式:${cityInfo.mode}`);
+    message.success({
+      content:"开通成功！"
+    })
+    this.setState({ isShowOpenCity: false });
+  };
   render() {
-    let { dataSource } = this.state;
+    let { dataSource, isShowOpenCity } = this.state;
     return (
       <div>
         <Card>
           <FilterForm />
         </Card>
-        <Card style={{marginTop:15}}>
-          <Button type="primary">开通城市</Button>
+        <Card style={{ marginTop: 15 }}>
+          <Button type="primary" onClick={this.handdleOpenCity}>
+            开通城市
+          </Button>
         </Card>
         <Table
           bordered
@@ -76,6 +94,38 @@ export default class City extends Component {
             pageSize: 10,
           }}
         />
+        <Modal
+          visible={isShowOpenCity}
+          title="开通新城市"
+          onCancel={() => {
+            this.setState({ isShowOpenCity: false });
+          }}
+          onOk={this.handdleOpenCitySubmit}
+        >
+          <Form ref="openCity">
+            <FormItem label="选择城市" name="city" style={{ width: "35%" }}>
+              <Select placeholder="全部">
+                <Option value="all">全部</Option>
+                <Option value="bj">北京市</Option>
+                <Option value="sh">上海市</Option>
+                <Option value="hz">杭州市</Option>
+                <Option value="sz">深圳市</Option>
+              </Select>
+            </FormItem>
+            <FormItem label="营运模式" name="op_mode">
+              <RadioGroup>
+                <Radio value="selfMode">自营</Radio>
+                <Radio value="joinMode">加盟</Radio>
+              </RadioGroup>
+            </FormItem>
+            <FormItem label="用车模式" name="mode">
+              <RadioGroup>
+                <Radio value="stopMode">指定停车点</Radio>
+                <Radio value="banMode">禁停区</Radio>
+              </RadioGroup>
+            </FormItem>
+          </Form>
+        </Modal>
       </div>
     );
   }
