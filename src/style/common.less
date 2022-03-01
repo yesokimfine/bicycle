@@ -1,4 +1,13 @@
 @import './default.less';
+@import './reset.less';
+.clearfix{
+    &::after{
+        content:"";
+        clear: both;
+        display: block;
+        visibility: hidden;
+    }
+}
 .container{
     .nav-left{
         height:calc(100vh);

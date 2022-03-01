@@ -20,6 +20,7 @@ import City from "./page/city";
 import Order from "./page/order";
 import NoMatch from "./page/nomatch";
 import Common from "./common";
+import OrderDetail from "./page/order/detail";
 
 export default class RootRouter extends Component {
   render() {
@@ -61,7 +62,7 @@ export default class RootRouter extends Component {
                 path="/common"
                 render={() => (
                   <Common>
-                    <Route path="/common/detail/order/:orderId" />
+                    <Route path="/common/detail/order/:orderId" component={OrderDetail}/>
                   </Common>
                 )}
               />
