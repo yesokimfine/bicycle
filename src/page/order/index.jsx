@@ -103,6 +103,17 @@ export default class Order extends Component {
       selectedItem: record, //选中行的数据
     });
   };
+  openOrder = () => {
+    let { selectedItem } = this.state;
+    if (Object.keys(selectedItem).length === 0) {
+      Modal.warning({
+        title: "警告",
+        content: "当前没有选中任何订单",
+      });
+      return;
+    }
+    window.open(`/#/common/detail/order/${selectedItem.bike_id}`,"_blank")
+  };
   render() {
     let { selectedRowKeys, dataSource, isOrderFinishedShow, selectedItem } =
       this.state;
@@ -143,7 +154,11 @@ export default class Order extends Component {
           </Form>
         </Card>
         <Card style={{ marginTop: 20 }}>
-          <Button type="primary" style={{ margin: "0 25px" }}>
+          <Button
+            type="primary"
+            style={{ margin: "0 25px" }}
+            onClick={this.openOrder}
+          >
             订单详情
           </Button>
           <Button
