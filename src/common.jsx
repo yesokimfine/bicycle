@@ -12,8 +12,8 @@ export default class Common extends Component {
             <Header menuType="second" />
           </Col>
         </Row>
-        <Row className="content">
-          <Col span={24}>{this.props.children}</Col>
+        <Row className="content" style={{marginLeft:105}}>
+          <Col span={22}>{this.props.children}</Col>
         </Row>
         <Row>
           <Col span={24}>
