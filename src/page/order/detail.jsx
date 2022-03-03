@@ -1,21 +1,18 @@
 import React, { Component } from "react";
 import { Card } from "antd";
-import axios from "axios";
+import Utils from '../../utils/utils'
 import "./detail.less";
 export default class OrderDetail extends Component {
   state = {
     orderInfo: {},
   };
   componentWillMount() {
-    axios
-      .get(
-        "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/order/detail"
-      )
-      .then((res) => {
-        this.setState({ orderInfo: res.data.result });
+      let myAxios = Utils.myAxios("https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/order/detail")
+      myAxios.then((res) => {
+        this.setState({ orderInfo: res.result });
         this.renderMap();
-        this.drawBikeRoute(res.data.result.position_list);
-        this.drawServiceArea(res.data.result.area)
+        this.drawBikeRoute(res.result.position_list);
+        this.drawServiceArea(res.result.area)
       });
   }
   //绘制地图

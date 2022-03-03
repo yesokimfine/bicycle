@@ -1,66 +1,62 @@
 import React, { Component } from "react";
 import { Badge, Card, Table } from "antd";
-import axios from "axios";
+import Utils from "../../utils/utils";
 import "./table.less";
 export default class HighTable extends Component {
   state = {
     dataSource2: [],
   };
   getUser = () => {
-    axios
-      .get(
-        "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/table/hightTableget.php"
-      )
-      .then((res) => {
-        res.data.data.list.map((item, index) => {
-          item.key = index;
-        });
-        this.setState({
-          dataSource2: res.data.data.list,
-        });
+    let myAxios = Utils.myAxios(
+      "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/table/hightTableget.php"
+    );
+    myAxios.then((res) => {
+      res.data.list.map((item, index) => {
+        item.key = index;
       });
+      this.setState({
+        dataSource2: res.data.list,
+      });
+    });
   };
   getUser2 = () => {
-    axios
-      .get(
-        "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/table/fixedLeft.php"
-      )
-      .then((res) => {
-        res.data.data.list.map((item, index) => {
-          item.key = index;
-        });
-        this.setState({
-          dataSource3: res.data.data.list,
-        });
+    let myAxios = Utils.myAxios(
+      "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/table/fixedLeft.php"
+    );
+    myAxios.then((res) => {
+      res.data.list.map((item, index) => {
+        item.key = index;
       });
+      this.setState({
+        dataSource3: res.data.list,
+      });
+    });
   };
   getUser3 = () => {
-    axios
-      .get(
-        "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/table/hightTableSort.php"
-      )
-      .then((res) => {
-        res.data.data.list.map((item, index) => {
-          item.key = index;
-        });
-        this.setState({
-          dataSource4: res.data.data.list,
-        });
+    let myAxios = Utils.myAxios(
+      "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/table/hightTableSort.php"
+    );
+    myAxios.then((res) => {
+      res.data.list.map((item, index) => {
+        item.key = index;
       });
+      this.setState({
+        dataSource4: res.data.list,
+      });
+    });
   };
   getUser4 = () => {
-    axios
-      .get(
-        "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/table/badgeTable.php"
-      )
-      .then((res) => {
-        res.data.data.list.map((item, index) => {
-          item.key = index;
-        });
-        this.setState({
-          dataSource5: res.data.data.list,
-        });
+    let myAxios = Utils.myAxios(
+      "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/table/badgeTable.php"
+    );
+    myAxios.then((res) => {
+      res.data.list.map((item, index) => {
+        item.key = index;
       });
+      this.setState({
+        dataSource5: res.data.list,
+      });
+    });
   };
   componentDidMount() {
     this.getUser();
@@ -191,7 +187,7 @@ export default class HighTable extends Component {
         dataIndex: "salary",
         sorter: (a, b) => a.salary - b.salary,
         sorterOrder: "ascend ",
-      }
+      },
     ];
     const columns5 = [
       {
@@ -219,24 +215,19 @@ export default class HighTable extends Component {
         dataIndex: "address",
       },
       {
-        title:"当前状态",
-        dataIndex:"status",
-        render(s){
+        title: "当前状态",
+        dataIndex: "status",
+        render(s) {
           let config = {
-            online:<Badge status="success" text="在线" />,
-            offline:<Badge status="default" text="离线" />,
-            busy:<Badge status="warning" text="忙碌" />
-          }
+            online: <Badge status="success" text="在线" />,
+            offline: <Badge status="default" text="离线" />,
+            busy: <Badge status="warning" text="忙碌" />,
+          };
           return config[s];
-        }
-      }
+        },
+      },
     ];
-    let {
-      dataSource2,
-      dataSource3,
-      dataSource4,
-      dataSource5,
-    } = this.state;
+    let { dataSource2, dataSource3, dataSource4, dataSource5 } = this.state;
     return (
       <div>
         <Card title="头部固定" className="card-wrapper">

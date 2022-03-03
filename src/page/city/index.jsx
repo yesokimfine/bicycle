@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, Form, Select, Button, Table, Modal, Radio, message } from "antd";
-import axios from "axios";
+import Utils from '../../utils/utils'
 
 const FormItem = Form.Item;
 const Option = Select;
@@ -52,15 +52,12 @@ export default class City extends Component {
     isShowOpenCity: false,
   };
   componentDidMount() {
-    axios
-      .get(
-        "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/openCity"
-      )
-      .then((res) => {
-        res.data.data.list.map((item, index) => {
+      let myAxios = Utils.myAxios("https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/openCity")
+      myAxios.then((res) => {
+        res.data.list.map((item, index) => {
           item.key = index;
         });
-        this.setState({ dataSource: res.data.data.list });
+        this.setState({ dataSource: res.data.list });
       });
   }
   handdleOpenCity = () => {

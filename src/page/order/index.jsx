@@ -10,7 +10,7 @@ import {
   Modal,
   message,
 } from "antd";
-import axios from "axios";
+import Utils from "../../utils/utils";
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -87,13 +87,10 @@ export default class Order extends Component {
     selectedItem: {},
   };
   componentDidMount() {
-    axios
-      .get(
-        "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/order"
-      )
-      .then((res) => {
-        res.data.data.list.map((item, index) => (item.key = index));
-        this.setState({ dataSource: res.data.data.list });
+    let myAxios = Utils.myAxios("https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/order");
+      myAxios.then((res) => {
+        res.data.list.map((item, index) => (item.key = index));
+        this.setState({ dataSource: res.data.list });
       });
   }
   onRowClick = (record, index) => {

@@ -40,12 +40,14 @@ export default class Header extends Component {
       <div className="header">
         <Row className="header-top">
           {menuType ? (
-            <Col span={6}  className="second-logo">
-              <img src="/assets/bic-logo.jpg" alt="" />
+            <Col span={6} className="second-logo">
+              <a href="/#/admin">
+                <img src="/assets/bic-logo.jpg" alt="" />
+              </a>
               <span>单车系统</span>
             </Col>
           ) : null}
-          <Col span={menuType?18:24}>
+          <Col span={menuType ? 18 : 24}>
             <span>欢迎，{userName}</span>
             <a href="#" style={{ color: menuType ? "#e50" : null }}>
               退出

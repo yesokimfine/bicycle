@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, Table, Switch, Button, modal } from "antd";
-import axios from "axios";
+import Utils from "../../utils/utils.js";
 import "./table.less";
 export default class BasicTable extends Component {
   state = {
@@ -9,18 +9,17 @@ export default class BasicTable extends Component {
     dataSource2: [],
   };
   getUser = () => {
-    axios
-      .get(
-        "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/get.php"
-      )
-      .then((res) => {
-        res.data.data.list.map((item, index) => {
-          item.key = index;
-        });
-        this.setState({
-          dataSource2: res.data.data.list,
-        });
+    let myAxios = Utils.myAxios(
+      "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/get.php"
+    );
+    myAxios.then((res) => {
+      res.data.list.map((item, index) => {
+        item.key = index;
       });
+      this.setState({
+        dataSource2: res.data.list,
+      });
+    });
   };
   componentDidMount() {
     let dataSource = [
