@@ -11,6 +11,7 @@ import {
   message,
 } from "antd";
 import Utils from "../../utils/utils";
+import FilterForm from "../../components/BaseForm";
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -86,12 +87,45 @@ export default class Order extends Component {
     isOrderFinishedShow: false,
     selectedItem: {},
   };
+  formList = [
+    {
+      type: "SELECT",
+      label: "城市",
+      field: "city",
+      placeholder: "全部",
+      width: 90,
+      list: [
+        { id: "all", name: "全部" },
+        { id: "bj", name: "北京市" },
+        { id: "sh", name: "上海市" },
+        { id: "hz", name: "杭州市" },
+        { id: "sz", name: "深圳市" },
+      ],
+    },
+    {
+      type: "时间查询",
+    },
+    {
+      type: "SELECT",
+      label: "订单状态",
+      field: "order_status",
+      placeholder: "全部",
+      width: 100,
+      list: [
+        { id: "all", name: "全部" },
+        { id: "running", name: "进行中" },
+        { id: "completed", name: "结束行程" },
+      ],
+    },
+  ];
   componentDidMount() {
-    let myAxios = Utils.myAxios("https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/order");
-      myAxios.then((res) => {
-        res.data.list.map((item, index) => (item.key = index));
-        this.setState({ dataSource: res.data.list });
-      });
+    let myAxios = Utils.myAxios(
+      "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/order"
+    );
+    myAxios.then((res) => {
+      res.data.list.map((item, index) => (item.key = index));
+      this.setState({ dataSource: res.data.list });
+    });
   }
   onRowClick = (record, index) => {
     let selectKey = [index]; //选中的哪一行
@@ -109,7 +143,7 @@ export default class Order extends Component {
       });
       return;
     }
-    window.open(`/#/common/detail/order/${selectedItem.bike_id}`,"_blank")
+    window.open(`/#/common/detail/order/${selectedItem.bike_id}`, "_blank");
   };
   render() {
     let { selectedRowKeys, dataSource, isOrderFinishedShow, selectedItem } =
@@ -121,34 +155,7 @@ export default class Order extends Component {
     return (
       <div>
         <Card>
-          <Form layout="inline">
-            <FormItem label="城市">
-              <Select name="city" placeholder="全部" style={{ width: 90 }}>
-                <Option value="all">全部</Option>
-                <Option value="bj">北京市</Option>
-                <Option value="sh">上海市</Option>
-                <Option value="hz">杭州市</Option>
-                <Option value="sz">深圳市</Option>
-              </Select>
-            </FormItem>
-            <FormItem name="order_time">
-              <DatePicker showTime placeholder="请选择开始时间" />
-              <span style={{ margin: "0 15px" }}>~</span>
-              <DatePicker showTime placeholder="请选择结束时间" />
-            </FormItem>
-            <FormItem label="订单状态" name="order_status">
-              <Select placeholder="全部" style={{ width: 170 }}>
-                <Option value="all">全部</Option>
-                <Option value="running">进行中</Option>
-                <Option value="locking">临时锁车</Option>
-                <Option value="completed">行程结束</Option>
-              </Select>
-            </FormItem>
-            <Button type="primary" style={{ margin: "0 15px" }}>
-              查询
-            </Button>
-            <Button>重置</Button>
-          </Form>
+          <FilterForm formList={this.formList} refName="f1"/>
         </Card>
         <Card style={{ marginTop: 20 }}>
           <Button

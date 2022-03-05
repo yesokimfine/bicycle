@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Card, Form, Select, Button, Table, Modal, Radio, message } from "antd";
-import Utils from '../../utils/utils'
+import Utils from "../../utils/utils";
+import BaseForm from "../../components/BaseForm";
 
 const FormItem = Form.Item;
 const Option = Select;
@@ -51,24 +52,80 @@ export default class City extends Component {
     dataSource: [],
     isShowOpenCity: false,
   };
+  formList = [
+    {
+      type: "SELECT",
+      label: "城市",
+      field: "city",
+      placeholder: "全部",
+      width: 90,
+      list: [
+        { id: "all", name: "全部" },
+        { id: "bj", name: "北京市" },
+        { id: "sh", name: "上海市" },
+        { id: "hz", name: "杭州市" },
+        { id: "sz", name: "深圳市" },
+      ],
+    },
+    {
+      type:"SELECT",
+      label:"用车模式",
+      field:"mode",
+      placeholder:"全部",
+      width:140,
+      list:[
+        { id: "all", name: "全部" },
+        { id: "banMode", name: "禁停区模式" },
+        { id: "stopMode", name: "服务器模式" },
+      ]
+    },
+    {
+      type:"SELECT",
+      label:"营运模式",
+      field:"op_mode",
+      placeholder:"全部",
+      width:90,
+      list:[
+        { id: "all", name: "全部" },
+        { id: "join", name: "加盟" },
+        { id: "self", name: "自营" },
+      ]
+    },
+    {
+      type: "SELECT",
+      label: "加盟授权状态",
+      field: "order_status",
+      placeholder: "全部",
+      width: 120,
+      list: [
+        { id: "all", name: "全部" },
+        { id: "allowed", name: "已授权" },
+        { id: "unallowed", name: "结束行程" },
+      ],
+    },
+  ];
   componentDidMount() {
-      let myAxios = Utils.myAxios("https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/openCity")
-      myAxios.then((res) => {
-        res.data.list.map((item, index) => {
-          item.key = index;
-        });
-        this.setState({ dataSource: res.data.list });
+    let myAxios = Utils.myAxios(
+      "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/openCity"
+    );
+    myAxios.then((res) => {
+      res.data.list.map((item, index) => {
+        item.key = index;
       });
+      this.setState({ dataSource: res.data.list });
+    });
   }
   handdleOpenCity = () => {
     this.setState({ isShowOpenCity: true });
   };
   handdleOpenCitySubmit = () => {
     let cityInfo = this.refs.openCity.getFieldValue();
-    console.log(`城市:${cityInfo.city},营运模式:${cityInfo.op_mode},用车模式:${cityInfo.mode}`);
+    console.log(
+      `城市:${cityInfo.city},营运模式:${cityInfo.op_mode},用车模式:${cityInfo.mode}`
+    );
     message.success({
-      content:"开通成功！"
-    })
+      content: "开通成功！",
+    });
     this.setState({ isShowOpenCity: false });
   };
   render() {
@@ -76,7 +133,7 @@ export default class City extends Component {
     return (
       <div>
         <Card>
-          <FilterForm />
+          <BaseForm formList={this.formList} refName="cityForm"/>
         </Card>
         <Card style={{ marginTop: 15 }}>
           <Button type="primary" onClick={this.handdleOpenCity}>
@@ -124,54 +181,6 @@ export default class City extends Component {
           </Form>
         </Modal>
       </div>
-    );
-  }
-}
-class FilterForm extends Component {
-  render() {
-    return (
-      <Form layout="inline">
-        <FormItem label="城市" name="city" style={{ width: "12%" }}>
-          <Select placeholder="全部">
-            <Option value="all">全部</Option>
-            <Option value="bj">北京市</Option>
-            <Option value="sh">上海市</Option>
-            <Option value="hz">杭州市</Option>
-            <Option value="sz">深圳市</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="用车模式" name="mode" style={{ width: "17%" }}>
-          <Select placeholder="全部">
-            <Option value="all">全部</Option>
-            <Option value="banMode">禁停区模式</Option>
-            <Option value="stopMode">停车点模式</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="营运模式" name="op_mode" style={{ width: "14%" }}>
-          <Select placeholder="全部">
-            <Option value="all">全部</Option>
-            <Option value="joinMode">加盟</Option>
-            <Option value="selfMode">自营</Option>
-          </Select>
-        </FormItem>
-        <FormItem
-          label="加盟商授权状态"
-          name="auth_status"
-          style={{ width: "18%" }}
-        >
-          <Select placeholder="全部">
-            <Option value="all">全部</Option>
-            <Option value="allowed">已授权</Option>
-            <Option value="unallowed">未授权</Option>
-          </Select>
-        </FormItem>
-        <FormItem>
-          <Button type="primary" style={{ margin: "0 20px" }}>
-            查询
-          </Button>
-          <Button>重置</Button>
-        </FormItem>
-      </Form>
     );
   }
 }
