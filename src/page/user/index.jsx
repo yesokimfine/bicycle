@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Badge, Button, Card, Table } from "antd";
+import { Badge, Button, Card, message, Modal, Table } from "antd";
 import Utils from "../../utils/utils";
 import {
   PlusOutlined,
@@ -57,6 +57,7 @@ const columns = [
 export default class User extends Component {
   state = {
     dataSource: [],
+    operateType: "",
   };
   formList = [
     {
@@ -79,11 +80,66 @@ export default class User extends Component {
       width: 100,
     },
   ];
+  createFormList = [
+    {
+      type: "INPUT",
+      label: "姓名",
+      field: "user_name",
+      width: 80,
+      placeholder: "请输入员工姓名",
+    },
+
+    {
+      type: "SELECT",
+      label: "学历",
+      field: "education",
+      list: [
+        {
+          id: "cz",
+          name: "初中",
+        },
+        {
+          id: "gz",
+          name: "高中",
+        },
+        {
+          id: "dx",
+          name: "大学",
+        },
+      ],
+    },
+    {
+      type: "RADIO_G",
+      field: "user_gender",
+      label: "性别",
+      list: [
+        {
+          value: "male",
+          content: "男",
+        },
+        {
+          value: "female",
+          content: "女",
+        },
+      ],
+    },
+    {
+      type: "DATEPICK",
+      label: "出生日期",
+      field: "birthday",
+      placeholder: "选择日期",
+    },
+    {
+      type: "TEXT",
+      label: "联系地址",
+      field: "address",
+    },
+  ];
   componentWillMount() {
     Utils.myAxios(
       "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/user"
     ).then((res) => {
-      res.results.map((item,index) => (item.key = index));
+      res.results.map((item, index) => (item.key = index));
       this.setState({
         dataSource: res.results,
       });
@@ -96,11 +152,15 @@ export default class User extends Component {
       selectedItem: record,
     });
   };
+  handleOperate = (type) => {
+    this.setState({ operateType: type });
+    return;
+  };
   render() {
-    let { dataSource, selectedRowKeys } = this.state;
+    let { dataSource, selectedRowKeys, operateType } = this.state;
     let rowSelection = {
       type: "radio",
-      selectedRowKeys
+      selectedRowKeys,
     };
     return (
       <div>
@@ -108,19 +168,40 @@ export default class User extends Component {
           <BaseForm formList={this.formList} />
         </Card>
         <Card style={{ marginTop: 20 }}>
-          <Button type="primary">
+          <Button
+            type="primary"
+            onClick={() => {
+              this.handleOperate("create");
+            }}
+          >
             <PlusOutlined />
             新建
           </Button>
-          <Button type="primary" style={{ margin: "0 30px" }}>
+          <Button
+            type="primary"
+            style={{ margin: "0 30px" }}
+            onClick={() => {
+              this.handleOperate("edit");
+            }}
+          >
             <EditOutlined />
             编辑
           </Button>
-          <Button danger>
+          <Button
+            danger
+            onClick={() => {
+              this.handleOperate("del");
+            }}
+          >
             <DeleteOutlined />
             删除
           </Button>
-          <Button style={{ marginLeft: 30 }}>
+          <Button
+            style={{ marginLeft: 30 }}
+            onClick={() => {
+              this.handleOperate("detail");
+            }}
+          >
             <MenuOutlined />
             查看详情
           </Button>
@@ -131,15 +212,35 @@ export default class User extends Component {
             columns={columns}
             dataSource={dataSource}
             rowSelection={rowSelection}
-            onRow={(record,index) => {
+            onRow={(record, index) => {
               return {
                 onClick: () => {
-                  this.onRowClick(record,index);
-                }
+                  this.onRowClick(record, index);
+                },
               };
             }}
           />
         </Card>
+        <Modal
+          title="创建员工"
+          visible={operateType === "create"}
+          onCancel={() => {
+            this.setState({ operateType: "" });
+          }}
+          onOk={() => {
+            message.success({ content: "创建成功" });
+            this.setState({ operateType: "" });
+          }}
+          okText="创建"
+          cancelText="取消"
+          style={{ width: 400 }}
+        >
+          <BaseForm
+            formList={this.createFormList}
+            layout="horizontal"
+            hasButtons={false}
+          />
+        </Modal>
       </div>
     );
   }
