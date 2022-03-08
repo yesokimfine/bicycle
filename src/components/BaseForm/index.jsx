@@ -17,11 +17,16 @@ export default class BaseForm extends Component {
     let { formList } = this.props;
     const formItemList = [];
     formList.map((item) => {
-      let { label, field, placeholder, width, type, list } = item;
+      let { label, field, placeholder, width, type, list, value } = item;
       switch (type) {
         case "INPUT":
           const INPUT = (
-            <FormItem name={field} label={label} key={field}>
+            <FormItem
+              name={field}
+              label={label}
+              key={field}
+              initialValue={value}
+            >
               {<Input type="text" placeholder={placeholder} />}
             </FormItem>
           );
@@ -68,7 +73,7 @@ export default class BaseForm extends Component {
           break;
         case "DATEPICK":
           const dataPicker = (
-            <FormItem name="pick_time" label={label}>
+            <FormItem name="pick_time" label={label} initialValue={value}>
               <DatePicker placeholder={placeholder ? placeholder : ""} />
             </FormItem>
           );
@@ -77,7 +82,7 @@ export default class BaseForm extends Component {
         case "RADIO_G":
           const radioGroup = (
             <FormItem name={field} label={label}>
-              <Radio.Group>
+              <Radio.Group defaultValue={value}>
                 {list.map((item) => (
                   <Radio value={item.value}>{item.content}</Radio>
                 ))}
@@ -88,8 +93,8 @@ export default class BaseForm extends Component {
           break;
         case "TEXT":
           const textarea = (
-            <FormItem name={field} label={label}>
-              <TextArea rows={5} />
+            <FormItem name={field} label={label} initialValue={value} >
+              <TextArea rows={5}/>
             </FormItem>
           );
           formItemList.push(textarea);

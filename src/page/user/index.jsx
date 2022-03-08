@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Badge, Button, Card, message, Modal, Table } from "antd";
+import { Badge, Button, Card, Form, message, Modal, Table } from "antd";
+import moment from "moment";
 import Utils from "../../utils/utils";
 import {
   PlusOutlined,
@@ -9,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import BaseForm from "../../components/BaseForm";
 
+const FormItem = Form.Item;
 const columns = [
   {
     title: "id",
@@ -58,6 +60,7 @@ export default class User extends Component {
   state = {
     dataSource: [],
     operateType: "",
+    selectedItem: {},
   };
   formList = [
     {
@@ -85,7 +88,6 @@ export default class User extends Component {
       type: "INPUT",
       label: "姓名",
       field: "user_name",
-      width: 80,
       placeholder: "请输入员工姓名",
     },
 
@@ -154,10 +156,10 @@ export default class User extends Component {
   };
   handleOperate = (type) => {
     this.setState({ operateType: type });
-    return;
   };
   render() {
-    let { dataSource, selectedRowKeys, operateType } = this.state;
+    let { dataSource, selectedRowKeys, operateType,selectedItem } = this.state;
+    console.log(this.state);
     let rowSelection = {
       type: "radio",
       selectedRowKeys,
@@ -190,7 +192,15 @@ export default class User extends Component {
           <Button
             danger
             onClick={() => {
-              this.handleOperate("del");
+              Modal.confirm({
+                title:"删除操作",
+                content:`您确定要删除员工id:${selectedItem.id}【${selectedItem.user_name}】的信息吗`,
+                onOk:()=>{
+                  message.success({
+                    content:"删除成功"
+                  })
+                }
+              })
             }}
           >
             <DeleteOutlined />
@@ -199,7 +209,27 @@ export default class User extends Component {
           <Button
             style={{ marginLeft: 30 }}
             onClick={() => {
-              this.handleOperate("detail");
+              Modal.info({
+                title:"员工详情",
+                  content:
+                    <Form>
+                      <FormItem label="员工姓名">
+                          {selectedItem.user_name}
+                      </FormItem>
+                      <FormItem label="性别">
+                          {selectedItem.user_gender}
+                      </FormItem>
+                      <FormItem label="当前状态">
+                          {selectedItem.status}
+                      </FormItem>
+                      <FormItem label="出生日期">
+                          {selectedItem.birthday}
+                      </FormItem>
+                      <FormItem label="联系地址">
+                          {selectedItem.user_address}
+                      </FormItem>
+                    </Form>
+              })
             }}
           >
             <MenuOutlined />
@@ -233,10 +263,82 @@ export default class User extends Component {
           }}
           okText="创建"
           cancelText="取消"
-          style={{ width: 400 }}
         >
           <BaseForm
             formList={this.createFormList}
+            layout="horizontal"
+            hasButtons={false}
+          />
+        </Modal>
+        <Modal
+          title="编辑员工"
+          visible={operateType === "edit"}
+          onCancel={() => {
+            this.setState({ operateType: "" });
+          }}
+          onOk={() => {
+            message.success({ content: "编辑成功" });
+            this.setState({ operateType: "" });
+          }}
+          okText="修改"
+          cancelText="取消"
+        >
+          <BaseForm
+            formList={[
+              {
+                type: "INPUT",
+                label: "姓名",
+                field: "user_name",
+                value: this.state.selectedItem.user_name,
+              },
+              {
+                type: "SELECT",
+                label: "学历",
+                field: "education",
+                list: [
+                  {
+                    id: "cz",
+                    name: "初中",
+                  },
+                  {
+                    id: "gz",
+                    name: "高中",
+                  },
+                  {
+                    id: "dx",
+                    name: "大学",
+                  },
+                ],
+              },
+              {
+                type: "RADIO_G",
+                field: "user_gender",
+                label: "性别",
+                value: this.state.selectedItem.user_gender === "男"?"male":"female",
+                list: [
+                  {
+                    value: "male",
+                    content: "男",
+                  },
+                  {
+                    value: "female",
+                    content: "女",
+                  },
+                ],
+              },
+              {
+                type: "DATEPICK",
+                label: "出生日期",
+                field: "birthday",
+                value: moment(this.state.selectedItem.birthday),
+              },
+              {
+                type: "TEXT",
+                label: "联系地址",
+                field: "address",
+                value: this.state.selectedItem.user_address,
+              },
+            ]}
             layout="horizontal"
             hasButtons={false}
           />
