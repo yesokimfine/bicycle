@@ -68,28 +68,28 @@ export default class City extends Component {
       ],
     },
     {
-      type:"SELECT",
-      label:"用车模式",
-      field:"mode",
-      placeholder:"全部",
-      width:140,
-      list:[
+      type: "SELECT",
+      label: "用车模式",
+      field: "mode",
+      placeholder: "全部",
+      width: 140,
+      list: [
         { id: "all", name: "全部" },
         { id: "banMode", name: "禁停区模式" },
         { id: "stopMode", name: "服务器模式" },
-      ]
+      ],
     },
     {
-      type:"SELECT",
-      label:"营运模式",
-      field:"op_mode",
-      placeholder:"全部",
-      width:90,
-      list:[
+      type: "SELECT",
+      label: "营运模式",
+      field: "op_mode",
+      placeholder: "全部",
+      width: 90,
+      list: [
         { id: "all", name: "全部" },
         { id: "join", name: "加盟" },
         { id: "self", name: "自营" },
-      ]
+      ],
     },
     {
       type: "SELECT",
@@ -105,10 +105,9 @@ export default class City extends Component {
     },
   ];
   componentDidMount() {
-    let myAxios = Utils.myAxios(
+    Utils.myAxios(
       "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/openCity"
-    );
-    myAxios.then((res) => {
+    ).then((res) => {
       res.data.list.map((item, index) => {
         item.key = index;
       });
@@ -133,7 +132,7 @@ export default class City extends Component {
     return (
       <div>
         <Card>
-          <BaseForm formList={this.formList} refName="cityForm"/>
+          <BaseForm formList={this.formList} refName="cityForm" />
         </Card>
         <Card style={{ marginTop: 15 }}>
           <Button type="primary" onClick={this.handdleOpenCity}>

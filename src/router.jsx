@@ -21,6 +21,7 @@ import Order from "./page/order";
 import NoMatch from "./page/nomatch";
 import Common from "./common";
 import OrderDetail from "./page/order/detail";
+import User from "./page/user";
 
 export default class RootRouter extends Component {
   render() {
@@ -53,6 +54,7 @@ export default class RootRouter extends Component {
                       <Route path="/admin/table/high" component={HighTable} />
                       <Route path="/admin/city" component={City} />
                       <Route path="/admin/order" component={Order} />
+                      <Route path="/admin/user" component={User} />
                       <Route component={NoMatch} />
                     </Switch>
                   </Admin>

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Checkbox, Form, Input, Select, Button, DatePicker } from "antd";
 import Utils from "../../utils/utils";
+import {RedoOutlined} from "@ant-design/icons"
 
 const FormItem = Form.Item;
-export default class FilterForm extends Component {
+export default class BaseForm extends Component {
   handdleFilterSubmit = (refName) => {
     let cityInfo = this.refs[refName].getFieldsValue();
     console.log(cityInfo);
@@ -72,6 +73,14 @@ export default class FilterForm extends Component {
           formItemList.push(dataSelectStart);
           formItemList.push(dataSelectEnd);
           break;
+          case "DATEPICK":
+            const dataPicker = (
+              <FormItem name="pick_time" label={label}>
+                <DatePicker placeholder={placeholder} />
+              </FormItem>
+            );
+            formItemList.push(dataPicker);
+            break; 
         default:
       }
     });
@@ -92,7 +101,7 @@ export default class FilterForm extends Component {
           >
             查询
           </Button>
-          <Button onClick={()=>{this.handleReset(refName)}}>重置</Button>
+          <Button onClick={()=>{this.handleReset(refName)}}>重置<RedoOutlined /></Button>
         </FormItem>
       </Form>
     );

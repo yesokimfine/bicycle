@@ -1,20 +1,9 @@
 import React, { Component } from "react";
-import {
-  Card,
-  Form,
-  Select,
-  DatePicker,
-  Button,
-  Table,
-  Badge,
-  Modal,
-  message,
-} from "antd";
+import { Card, Form, Button, Table, Badge, Modal, message } from "antd";
 import Utils from "../../utils/utils";
 import FilterForm from "../../components/BaseForm";
 
 const FormItem = Form.Item;
-const { Option } = Select;
 const columns = [
   {
     title: "订单编号",
@@ -119,19 +108,18 @@ export default class Order extends Component {
     },
   ];
   componentDidMount() {
-    let myAxios = Utils.myAxios(
+    Utils.myAxios(
       "https://mock.apipost.cn/app/mock/project/2784e323-1389-4f85-a288-74cfbbbf595f/order"
-    );
-    myAxios.then((res) => {
+    ).then((res) => {
       res.data.list.map((item, index) => (item.key = index));
       this.setState({ dataSource: res.data.list });
     });
   }
   onRowClick = (record, index) => {
-    let selectKey = [index]; //选中的哪一行
+    let selectKey = [index];
     this.setState({
       selectedRowKeys: selectKey,
-      selectedItem: record, //选中行的数据
+      selectedItem: record,
     });
   };
   openOrder = () => {
@@ -155,7 +143,7 @@ export default class Order extends Component {
     return (
       <div>
         <Card>
-          <FilterForm formList={this.formList} refName="f1"/>
+          <FilterForm formList={this.formList} refName="f1" />
         </Card>
         <Card style={{ marginTop: 20 }}>
           <Button
@@ -183,7 +171,7 @@ export default class Order extends Component {
             return {
               onClick: (event) => {
                 this.onRowClick(record, index);
-              }, // 点击行
+              },
             };
           }}
         />
