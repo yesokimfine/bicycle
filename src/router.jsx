@@ -22,6 +22,7 @@ import NoMatch from "./page/nomatch";
 import Common from "./common";
 import OrderDetail from "./page/order/detail";
 import User from "./page/user";
+import BikeMap from "./page/bikeMap";
 
 export default class RootRouter extends Component {
   render() {
@@ -55,6 +56,7 @@ export default class RootRouter extends Component {
                       <Route path="/admin/city" component={City} />
                       <Route path="/admin/order" component={Order} />
                       <Route path="/admin/user" component={User} />
+                      <Route path="/admin/bikeMap" component={BikeMap} />
                       <Route component={NoMatch} />
                     </Switch>
                   </Admin>
