@@ -3,13 +3,12 @@ import { Card } from "antd";
 //加载柱形图
 import "echarts/lib/chart/bar";
 //按需加载
-import { echarts, ReactEcharts } from "../../../utils/initialEcharts";
-import echartTheme from "../echartTheme";
+import { echarts, ReactEcharts ,echartsTheme } from "../../../utils/initialEcharts";
 export default class Bar extends Component {
   componentWillMount() {
     //注册主题
     // echarts.registerTheme("defaultTheme", echartTheme);
-    echarts.registerTheme("defaultTheme", echartTheme);
+    echarts.registerTheme("defaultTheme", echartsTheme);
   }
   option1 = {
     title: {

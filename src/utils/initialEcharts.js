@@ -11,4 +11,7 @@ import "echarts/lib/component/markLine";
 //引入echarts-for-react
 import ReactEcharts from 'echarts-for-react';
 
-export {echarts,ReactEcharts};
+//主题
+import echartsTheme from '../page/echarts/echartTheme';
+
+export {echarts,ReactEcharts,echartsTheme};

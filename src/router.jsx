@@ -24,6 +24,7 @@ import OrderDetail from "./page/order/detail";
 import User from "./page/user";
 import BikeMap from "./page/bikeMap";
 import Bar from "./page/echarts/bar";
+import Pie from "./page/echarts/pie";
 
 export default class RootRouter extends Component {
   render() {
@@ -59,6 +60,7 @@ export default class RootRouter extends Component {
                       <Route path="/admin/user" component={User} />
                       <Route path="/admin/bikeMap" component={BikeMap} />
                       <Route path="/admin/charts/bar" component={Bar} />
+                      <Route path="/admin/charts/pie" component={Pie} />
                       <Route component={NoMatch} />
                     </Switch>
                   </Admin>
