@@ -26,6 +26,7 @@ import BikeMap from "./page/bikeMap";
 import Bar from "./page/echarts/bar";
 import Pie from "./page/echarts/pie";
 import Line from "./page/echarts/line";
+import Rich from "./page/rich"
 
 export default class RootRouter extends Component {
   render() {
@@ -63,6 +64,7 @@ export default class RootRouter extends Component {
                       <Route path="/admin/charts/bar" component={Bar} />
                       <Route path="/admin/charts/pie" component={Pie} />
                       <Route path="/admin/charts/line" component={Line} />
+                      <Route path="/admin/rich" component={Rich} />
                       <Route component={NoMatch} />
                     </Switch>
                   </Admin>
